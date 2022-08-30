@@ -1,3 +1,4 @@
+import { Button, Card, Typography } from "@mui/material";
 import React from "react";
 
 import { AnswerObject } from "../App";
@@ -20,25 +21,33 @@ const QuestionCard: React.FC<Props> = ({
   totalQuestions,
 }) => {
   return (
-    <div>
-      <p className="number">
+    <Card sx={{ bgcolor: "rgba(255, 255, 255,.95)", p: 1 }}>
+      <Typography variant="body1" className="number">
         Question {questionNr} / {totalQuestions}
-      </p>
+      </Typography>
       <p dangerouslySetInnerHTML={{ __html: question }} />
       <div>
         {answers.map((answer, index) => (
           <div key={index + answer}>
-            <button
+            <Button
+              variant="contained"
+              color={
+                userAnswer?.answer === userAnswer?.correctAnswer
+                  ? "primary"
+                  : "error"
+              }
               disabled={userAnswer ? true : false}
               value={answer}
               onClick={callback}
+              fullWidth
+              sx={{ my: 1 }}
             >
               <span dangerouslySetInnerHTML={{ __html: answer }}></span>
-            </button>
+            </Button>
           </div>
         ))}
       </div>
-    </div>
+    </Card>
   );
 };
 

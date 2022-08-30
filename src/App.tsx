@@ -1,9 +1,11 @@
+import { Button, CircularProgress, Container, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 import { fetchQuizQuestions, Difficulty, QuetionState } from "./API";
 
 // components
 import QuestionCard from "./components/QuestionCard";
+import quiz from "./quiz.png";
 
 export type AnswerObject = {
   question: string;
@@ -64,15 +66,33 @@ const App = () => {
     }
   };
   return (
-    <div>
-      <h1>INHLAKANI QUIZ</h1>
+    <Container maxWidth="xs">
+      <Typography variant="h4" align="center" fontWeight="bold">
+        NHLAKANIPHO
+        <img src={quiz} alt="Quiz" width={"50%"} />
+      </Typography>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-        <button className="start" onClick={startTrivia}>
+        <Button
+          variant="contained"
+          color="success"
+          className="start"
+          onClick={startTrivia}
+          sx={{ my: 2 }}
+          fullWidth
+        >
           Start
-        </button>
+        </Button>
       ) : null}
-      {!gameOver ? <p className="score">Score: {score}</p> : null}
-      {loading && <p>Loading Questions ...</p>}
+      {!gameOver ? (
+        <Typography
+          variant="h5"
+          color={score > TOTAL_QUESTIONS ? "success" : "error"}
+          sx={{ my: 1 }}
+        >
+          Score: {score}
+        </Typography>
+      ) : null}
+      {loading && <CircularProgress />}
       {!loading && !gameOver && (
         <QuestionCard
           questionNr={number + 1}
@@ -83,10 +103,19 @@ const App = () => {
           callback={checkAnswer}
         />
       )}
-      <button className="next" onClick={nextQuestion}>
-        Next Question
-      </button>
-    </div>
+      {userAnswers.length === 0 || number - 1 === TOTAL_QUESTIONS ? null : (
+        <Button
+          variant="contained"
+          color="warning"
+          className="next"
+          onClick={nextQuestion}
+          fullWidth
+          sx={{ mt: 3 }}
+        >
+          Next Question
+        </Button>
+      )}
+    </Container>
   );
 };
 

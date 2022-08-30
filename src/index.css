@@ -1,0 +1,7 @@
+body {
+    background-image: url('./creative.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+}
